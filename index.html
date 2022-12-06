@@ -1,0 +1,149 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paint</title>
+    <link rel="stylesheet" href="./Style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <div id="control">
+        <div class="control-item" id="down-undo-redo">
+          <i class="fa-solid fa-arrow-rotate-left" id="undo"></i>
+          <i class="fa-solid fa-arrow-rotate-right" id="redo"></i>
+          <i id="download" class="fa-solid fa-download"></i>
+        </div>
+        <div class="control-item" id="line-width">
+          <i id="line-width-minus" class="fa-solid fa-minus"></i>
+          <div id="line-width-quality"></div>
+          <i id="line-width-plus" class="fa-solid fa-plus"></i>
+        </div>
+        <div class="control-item" id="pen-and-eraser">
+          <i class="fa-solid fa-pen active" id="pen" type="line"></i>
+          <i class="fa-solid fa-eraser" id="eraser" type="eraser"></i>
+          <i class="fa-solid fa-note-sticky" id="newPaper"></i>
+        </div>
+        <div class="control-item" id="shape">
+          <i
+            class="fa-solid fa-slash shape-item"
+            id="straight"
+            type="straight"
+          ></i>
+          <span
+            class="material-symbols-outlined shape-item"
+            id="rectangle"
+            type="rectangle"
+          >
+            rectangle
+          </span>
+          <span
+            class="material-symbols-outlined shape-item"
+            id="circle"
+            type="circle"
+            circle
+          >
+            circle
+          </span>
+          <span
+            class="material-symbols-outlined shape-item"
+            id="triangle"
+            type="triangle"
+          >
+            change_history
+          </span>
+        </div>
+        <div class="control-item" id="color">
+          <div id="listColor">
+            <div class="optionColor" style="background-color: black"></div>
+            <div class="optionColor" style="background-color: white"></div>
+            <div class="optionColor" style="background-color: red"></div>
+            <div class="optionColor" style="background-color: blue"></div>
+            <div class="optionColor" style="background-color: yellow"></div>
+            <div class="optionColor" style="background-color: green"></div>
+            <div class="optionColor" style="background-color: gray"></div>
+            <div class="optionColor" style="background-color: pink"></div>
+            <div class="optionColor" style="background-color: purple"></div>
+            <div class="optionColor" style="background-color: lightblue"></div>
+          </div>
+          <div id="edit-color">
+            <label for="input-color">
+              <img src="./Images/EditColor.jpg" alt="" />
+              <input type="color" id="input-color" style="display: none" />
+            </label>
+            <div id="current-colors">Current color</div>
+          </div>
+        </div>
+        <div>
+          <i class="fa-solid fa-arrows-to-dot"></i>
+          <div id="mouseX">0</div>
+          <span>,</span>
+          <div id="mouseY">0</div>
+          <span>px</span>
+        </div>
+      </div>
+      <div id="paint-area"><canvas id="canvas"></canvas></div>
+    </div>
+  </body>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.js"
+    integrity="sha512-UNbeFrHORGTzMn3HTt00fvdojBYHLPxJbLChmtoyDwB6P9hX5mah3kMKm0HHNx/EvSPJt14b+SlD8xhuZ4w9Lg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script type="module">
+    import Paper from "./script.js";
+    let $ = document.querySelector.bind(document);
+    let paintArea = $("#paint-area");
+    let canvas = $("#canvas");
+    let ctx = canvas.getContext("2d");
+    let Height = paintArea.offsetHeight;
+    let Width = (Height * 99) / 70;
+    let paper = new Paper({
+      ctx,
+      height: Height,
+      width: Width,
+      lineWidth: {
+        value: 5,
+        minusDom: $("#line-width-minus"),
+        plusDom: $("#line-width-plus"),
+        qualityDom: $("#line-width-quality"),
+      },
+      control: {
+        penDom: $("#pen"),
+        eraserDom: $("#eraser"),
+        newPaperDom: $("#newPaper"),
+        undoDom: $("#undo"),
+        redoDom: $("#redo"),
+        downloadDom: $("#download"),
+        straightDom: $("#straight"),
+        rectDom: $("#rectangle"),
+        circleDom: $("#circle"),
+        triangleDom: $("#triangle"),
+      },
+      color: {
+        value: "black",
+        listColorDom: document.querySelectorAll(".optionColor"),
+        inputColorDom: $("#input-color"),
+        currentColorDom: $("#current-colors"),
+      },
+      mouseDom: {
+        xDom: $("#mouseX"),
+        yDom: $("#mouseY"),
+      },
+    });
+    paper.start();
+  </script>
+</html>
